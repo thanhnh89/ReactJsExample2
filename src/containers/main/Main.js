@@ -1,4 +1,4 @@
-import React , { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MainContent from '../../components/main/MainContent';
 import LeftMenu from '../../components/main/LeftMenu';
@@ -16,23 +16,14 @@ export const Wrapper = styled.div`
     align-items: center;
 `;
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: '',
-      password: 0,
-    }
-  }
+const Main = () => {
 
-  render() {
-    return (
-      <Wrapper>
-        <LeftMenu />
-        <MainContent />
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper>
+      <LeftMenu />
+      <MainContent />
+    </Wrapper>
+  )
 }
 
 export default Main;

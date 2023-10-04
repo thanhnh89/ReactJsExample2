@@ -1,4 +1,4 @@
-import React , { Component } from 'react';
+import React , { useState } from 'react';
 import {
     Wrapper, PopupLoginWrapper, Text, Row,
     Input, Button, Blank,
@@ -6,21 +6,16 @@ import {
 import api from "../../services/api";
 import StorageUtils from '../../helpers/StorageUtils';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: '',
-      password: 0,
-    }
-    this.handleUserName1 = this.handleUserName.bind(this);
-    this.handlePassword1 = this.handlePassword.bind(this);
-  }
+const Login = () => {
+  const [state, setState] = useState({
+    userName: '',
+    password: 0,
+  })
 
-  login() {
+  const login = () => {
     const params = {
-        userName: this.state.userName,
-        password: this.state.password,
+        userName: state.userName,
+        password: state.password,
     };
 
     api.create().login(params)
@@ -30,7 +25,6 @@ class Login extends Component {
         console.log('token ', token);
         StorageUtils.setItem('token', token);
         window.location.replace('/');
-
     })
     .catch((error) => {
       const { message } = error;
@@ -38,7 +32,7 @@ class Login extends Component {
     });
   }
 
-  getUserInfo() {
+  const getUserInfo = () => {
     api.create().getUserInfo(16)
     .then(response => {
         console.log('response = ', response);
@@ -49,41 +43,39 @@ class Login extends Component {
     });
   }
 
-  handleUserName(event) {
-    this.setState({ userName: event.target.value})
+  const handleUserName = (event) => {
+    setState({ userName: event.target.value})
   }
 
-  handlePassword(event) {
-    this.setState({ password: event.target.value})
+  const handlePassword = (event) => {
+    setState({ password: event.target.value})
   }
 
-  render() {
-    return (
-      <Wrapper>
-        <PopupLoginWrapper>
-          <Text color="#d3c8c8" fontSize={25}>LOGIN</Text>
-          <Row>
-            <Text color="#d3c8c8" fontSize={20}>User name</Text>
-            <Input
-              value={this.state.userName}
-              onChange={this.handleUserName1}
-            />
-          </Row>
-          <Blank height={0.2} />
-          <Row>
-            <Text color="#d3c8c8" fontSize={20}>Password</Text>
-            <Input
-              value={this.state.password}
-              onChange={this.handlePassword1}
-              type="password"
-            />
-          </Row>
-          <Button onClick={() => this.login()}>Login</Button>
-          <Button onClick={() => this.getUserInfo()}>getUserInfo</Button>
-        </PopupLoginWrapper>
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper>
+      <PopupLoginWrapper>
+        <Text color="#d3c8c8" fontSize={25}>LOGIN</Text>
+        <Row>
+          <Text color="#d3c8c8" fontSize={20}>User name</Text>
+          <Input
+            value={state.userName}
+            onChange={handleUserName}
+          />
+        </Row>
+        <Blank height={0.2} />
+        <Row>
+          <Text color="#d3c8c8" fontSize={20}>Password</Text>
+          <Input
+            value={state.password}
+            onChange={handlePassword}
+            type="password"
+          />
+        </Row>
+        <Button onClick={login}>Login</Button>
+        <Button onClick={getUserInfo}>getUserInfo</Button>
+      </PopupLoginWrapper>
+    </Wrapper>
+  )
 }
 
 export default Login;
